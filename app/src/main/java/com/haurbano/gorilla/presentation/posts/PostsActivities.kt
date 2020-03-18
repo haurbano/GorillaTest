@@ -9,15 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.haurbano.gorilla.R
 import com.haurbano.gorilla.domain.models.Post
 import com.haurbano.gorilla.presentation.createpost.CreatePostActivity
-import kotlinx.android.synthetic.main.activity_create_post.*
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PostsActivities : AppCompatActivity() {
 
     private val viewModel: PostsViewModel by viewModel()
-    private val postsAdapter: PostsAdapter = PostsAdapter()
-    private var posts = arrayListOf<Post>()
+    private val postsAdapter: PostsAdapter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +43,8 @@ class PostsActivities : AppCompatActivity() {
 
     private fun bindPost() {
         viewModel.posts.observe(this, Observer { posts ->
-            this.posts.clear()
-            this.posts.addAll(posts)
-            updatePosts()
+            postsAdapter.update(posts)
         })
-    }
-
-    private fun updatePosts() {
-        postsAdapter.posts = posts
-        postsAdapter.notifyDataSetChanged()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -72,7 +64,6 @@ class PostsActivities : AppCompatActivity() {
             postContent ?: "",
             unixTime.toString()
         )
-        posts.add(0,newPost)
-        updatePosts()
+        postsAdapter.addAtStart(newPost)
     }
 }

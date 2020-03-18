@@ -3,4 +3,5 @@
     <string name="what_s_on_your_mind">What\'s on your mind</string>
     <string name="hello_jane">Hello Jane</string>
     <string name="share_post_menu_title">Share</string>
+    <string name="full_name">%1$s! %2$s!</string>
 </resources>
