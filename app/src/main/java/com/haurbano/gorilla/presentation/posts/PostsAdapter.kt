@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.haurbano.gorilla.R
 import com.haurbano.gorilla.domain.models.Post
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 class PostsAdapter : RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
 
@@ -28,7 +30,8 @@ class PostsAdapter : RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = posts[position]
         holder.authorNameView.text = "${post.first_name} ${post.last_name}"
-        holder.postDateView.text = post.unix_timestamp
+        val date = DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(post.unix_timestamp.toLong()))
+        holder.postDateView.text = date
         holder.postContentView.text = post.post_body
     }
 }
